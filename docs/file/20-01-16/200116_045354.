@@ -1,0 +1,10 @@
+------WebKitFormBoundary7b9l1DURCcKOjBf6
+Content-Disposition: form-data; name="fileName"
+
+test.txt
+------WebKitFormBoundary7b9l1DURCcKOjBf6
+Content-Disposition: form-data; name="file1"; filename="mouse.txt"
+Content-Type: text/plain
+
+afasdfasdfasdf
+------WebKitFormBoundary7b9l1DURCcKOjBf6--
