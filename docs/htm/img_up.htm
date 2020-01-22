@@ -1,0 +1,74 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+/*
+2020-01-22 오전 6:22 
+http://831123.xyz/temp/faas/php_file2git_test.htm
+http://831123.xyz/temp/faas/img_up.htm
+*/
+</script>
+<h1>무료 이미지 업로드 호스팅</h1>
+<form 
+action="https://jp-tok.functions.cloud.ibm.com/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html" 
+method="post" enctype="multipart/form-data" id="fileUploadForm">
+  <p><input type="file" name="file1">
+  <p><button type="submit" id="btn_submit">업로드</button>
+</form>
+<div id="txt">
+</div>
+<script>
+$("#btn_submit").click(function (event) {
+
+	event.preventDefault();
+
+	var form = $('#fileUploadForm')[0];
+	var data = new FormData(form);
+
+	$("#btn_submit").prop("disabled", true);
+	$.ajax({
+		type: "POST",
+		enctype: 'multipart/form-data',
+		url: "https://jp-tok.functions.cloud.ibm.com/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html",
+		data: data,
+		processData: false,
+		contentType: false,
+		cache: false,
+		timeout: 10000,
+		success: function (data) {
+			let tag_link = '<a href="' + data + '" target="_blank">이미지 링크</a>';
+			let tag_img = '<img src="' + data + '" />';
+			let tag_img_xmp = '<input type="text" size="40" id="id_tag_img_xmp" />';
+			tag_img_xmp += ' <input type="button" value="이미지태그 복사" onclick="copy_tag_img();">';
+			//console.log("tag_img_xmp : " + tag_img_xmp);
+			
+			let html_body = 
+				tag_link+'<br />'+
+				tag_img+'<br />'+
+				tag_img_xmp+'<br />'+
+				'';
+			$('#txt').html(html_body);
+			$('#id_tag_img_xmp').val(tag_img);
+			$("#btn_submit").prop("disabled", false);
+		},
+		error: function (e) {
+			console.log("ERROR : ", e);
+			$("#btn_submit").prop("disabled", false);
+		}
+	});
+});
+
+function copy_tag_img()
+{
+	var target_txt = $('#id_tag_img_xmp').val();
+	console.log('target_txt : ' + target_txt);
+	copyToClipboard(target_txt);
+}
+
+function copyToClipboard(val) {
+	var t = document.createElement("textarea");
+	document.body.appendChild(t);
+	t.value = val;
+	t.select();
+	document.execCommand('copy');
+	document.body.removeChild(t);
+}
+</script>
