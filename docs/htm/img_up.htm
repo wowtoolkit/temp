@@ -8,15 +8,17 @@
 http://831123.xyz/temp/faas/php_file2git_test.htm
 http://831123.xyz/temp/faas/img_up.htm
 
-이미지 선택후 submit 없이 바로 업로드 되기
+V 이미지 선택후 submit 없이 바로 업로드 되기
 단축주소 변환후 리턴
 상세 이미지뷰 페이지 구현
 용량체크하기
 디비 연동 
+다국어 지원하기
 */
 </script>
 <style type="text/css">
 <!--
+#upfile_value { border:1px solid #e1e1e1; padding:5px; }
 input { margin:5px; }
 -->
 </style>
@@ -52,8 +54,8 @@ $("#upfile_value").change (function () {
 	event.preventDefault();
 
 	$("#msg").html('<< 업로드 중입니다 >>');
-	var form = $('#fileUploadForm')[0];
-	var data = new FormData(form);
+	let form = $('#fileUploadForm')[0];
+	let data = new FormData(form);
 
 	$("#btn_submit").prop("disabled", true);
 	$.ajax({
@@ -79,36 +81,55 @@ function data2html(data)
 {
 		let tag_link = '<a href="' + data + '" target="_blank">이미지 링크</a>';
 		let tag_img = '<img src="' + data + '" />';
-		let tag_img_xmp = '<input type="text" size="55" id="id_tag_img_xmp" />';
+
+		let tag_imgurl = '이미지 링크 : <input type="text" size="55" id="id_img_url" />';
+		tag_imgurl += ' <input type="button" value="이미지링크 복사" onclick="copy_img_url();">';
+
+		let tag_img_xmp = '이미지 태그 : <input type="text" size="55" id="id_tag_img_xmp" />';
 		tag_img_xmp += ' <input type="button" value="이미지태그 복사" onclick="copy_tag_img();">';
 
-		let tag_ahref_xmp = '<input type="text" size="55" id="id_tag_ahref_xmp" />';
+		let tag_ahref_xmp = '링크 태그 : <input type="text" size="55" id="id_tag_ahref_xmp" />';
 		tag_ahref_xmp += ' <input type="button" value="링크태그 복사" onclick="copy_tag_ahref();">';
+
+		let tag_markdown = '마크다운용 : <input type="text" size="55" id="id_tag_markdown" />';
+		tag_markdown += ' <input type="button" value="마크다운용 복사" onclick="copy_mark();">';
 		//console.log("tag_img_xmp : " + tag_img_xmp);
 		
 		let html_body = 
 			tag_link+'<br />'+
-			tag_img+'<br />'+
+			tag_img+'<br /><br />'+
+			tag_imgurl+'<br />'+
 			tag_img_xmp+'<br />'+
 			tag_ahref_xmp+'<br />'+
+			tag_markdown+'<br />'+
 			'';
 		$('#txt').html(html_body);
+		$('#id_img_url').val(data);
 		$('#id_tag_img_xmp').val(tag_img);
 		$('#id_tag_ahref_xmp').val(tag_link);
+		$('#id_tag_markdown').val('![]('+data+")");
 		$("#btn_submit").prop("disabled", false);
 		$("#msg").html('');
 }
 
+function copy_img_url()
+{
+	var target_txt = $('#id_img_url').val();
+	copyToClipboard(target_txt);
+}
 function copy_tag_img()
 {
 	var target_txt = $('#id_tag_img_xmp').val();
-	console.log('target_txt : ' + target_txt);
 	copyToClipboard(target_txt);
 }
 function copy_tag_ahref()
 {
 	var target_txt = $('#id_tag_ahref_xmp').val();
-	console.log('target_txt : ' + target_txt);
+	copyToClipboard(target_txt);
+}
+function copy_mark()
+{
+	var target_txt = $('#id_tag_markdown').val();
 	copyToClipboard(target_txt);
 }
 
