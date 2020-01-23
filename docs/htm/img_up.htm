@@ -1,11 +1,18 @@
 <html>
 <head>
+<title>■■■■■■■■■■■■■■■■■■■■■■■■</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 /*
 2020-01-22 오전 6:22 
 http://831123.xyz/temp/faas/php_file2git_test.htm
 http://831123.xyz/temp/faas/img_up.htm
+
+이미지 선택후 submit 없이 바로 업로드 되기
+단축주소 변환후 리턴
+상세 이미지뷰 페이지 구현
+용량체크하기
+디비 연동 
 */
 </script>
 <style type="text/css">
@@ -20,7 +27,6 @@ input { margin:5px; }
 action="https://jp-tok.functions.cloud.ibm.com/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html" 
 method="post" enctype="multipart/form-data" id="fileUploadForm">
   <p><input type="file" name="file1" id="upfile_value">
-  <p><button type="submit" id="btn_submit">Submit</button>
 </form>
 <div id="msg">
 
@@ -29,7 +35,12 @@ method="post" enctype="multipart/form-data" id="fileUploadForm">
 
 </div>
 <script>
-$("#btn_submit").click(function (event) {
+/*
+$("#upfile_value").change (function () {
+	$("#btn_submit").click();
+});
+*/
+$("#upfile_value").change (function () {
 	
 	let form_upfile = $('#upfile_value').val();
 	if(!form_upfile)
@@ -55,26 +66,7 @@ $("#btn_submit").click(function (event) {
 		cache: false,
 		timeout: 10000,
 		success: function (data) {
-			let tag_link = '<a href="' + data + '" target="_blank">이미지 링크</a>';
-			let tag_img = '<img src="' + data + '" />';
-			let tag_img_xmp = '<input type="text" size="55" id="id_tag_img_xmp" />';
-			tag_img_xmp += ' <input type="button" value="이미지태그 복사" onclick="copy_tag_img();">';
-
-			let tag_ahref_xmp = '<input type="text" size="55" id="id_tag_ahref_xmp" />';
-			tag_ahref_xmp += ' <input type="button" value="링크태그 복사" onclick="copy_tag_ahref();">';
-			//console.log("tag_img_xmp : " + tag_img_xmp);
-			
-			let html_body = 
-				tag_link+'<br />'+
-				tag_img+'<br />'+
-				tag_img_xmp+'<br />'+
-				tag_ahref_xmp+'<br />'+
-				'';
-			$('#txt').html(html_body);
-			$('#id_tag_img_xmp').val(tag_img);
-			$('#id_tag_ahref_xmp').val(tag_link);
-			$("#btn_submit").prop("disabled", false);
-			$("#msg").html('');
+			data2html(data);
 		},
 		error: function (e) {
 			console.log("ERROR : ", e);
@@ -82,6 +74,30 @@ $("#btn_submit").click(function (event) {
 		}
 	});
 });
+
+function data2html(data)
+{
+		let tag_link = '<a href="' + data + '" target="_blank">이미지 링크</a>';
+		let tag_img = '<img src="' + data + '" />';
+		let tag_img_xmp = '<input type="text" size="55" id="id_tag_img_xmp" />';
+		tag_img_xmp += ' <input type="button" value="이미지태그 복사" onclick="copy_tag_img();">';
+
+		let tag_ahref_xmp = '<input type="text" size="55" id="id_tag_ahref_xmp" />';
+		tag_ahref_xmp += ' <input type="button" value="링크태그 복사" onclick="copy_tag_ahref();">';
+		//console.log("tag_img_xmp : " + tag_img_xmp);
+		
+		let html_body = 
+			tag_link+'<br />'+
+			tag_img+'<br />'+
+			tag_img_xmp+'<br />'+
+			tag_ahref_xmp+'<br />'+
+			'';
+		$('#txt').html(html_body);
+		$('#id_tag_img_xmp').val(tag_img);
+		$('#id_tag_ahref_xmp').val(tag_link);
+		$("#btn_submit").prop("disabled", false);
+		$("#msg").html('');
+}
 
 function copy_tag_img()
 {
