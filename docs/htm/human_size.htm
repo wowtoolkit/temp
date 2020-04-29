@@ -1,5 +1,68 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<style>
+img { margin:0; padding:0 }
+body { font-size:10px; line-height:8pt; }
+</style>
 <script>
-alert(1);
+var count_num = 0;
+$( document ).ready(function() {
+	work(50, 200);
+});
+function exe()
+{
+	var var_people_count = $('#input_people_count').val();
+	var var_row_count = $('#input_row_count').val();
+	work(var_people_count, var_row_count);
+}
+function work(people, row)
+{
+	$('#main').html('');
+	var tag = '<img src="http://giter.mooo.com/img/humansize/icon_man.png" width="8" height="8" />';
+	var row_tag ='';
+	var count_num = 0;
+	for(i=0;i<people;i++)
+	{
+		if(people>10 && (i%10==0))
+			row_tag += ' ';
+
+		row_tag += tag;
+	}
+	//row += '<br />';
+	for(i=0;i<row;i++)
+	{
+		people *= 1;
+		count_num+=people;
+		$('#main').append(pad((i+1), 4)+' '+row_tag+' '+count_num+' <br />');
+		if((i+1)%10==0)
+			$('#main').append('<br />');
+	}
+	$('#now').html('현재 총 '+numberWithCommas((people*row))+'명');
+}
+
+function pad(n, width) {
+	n = n + '';
+	return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+}
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 </script>
-<img src="http://giter.mooo.com/img/humansize/icon_man.png" />
+</head>
+<div id="control">
+	가로 <input type="text" size="5" value="50" id="input_people_count" />
+	세로 <input type="text" size="5" value="200" id="input_row_count" />
+	<input type="button" value="OK" onclick="javascrpt:exe();" style="cursor:pointer;" /> 
+	<span id="now"></span>
+</div>
+<hr color="black" size="1" />
+<div id="main">
+	
+</div>
+<!--
+<hr color="red" />
+<img src="http://giter.mooo.com/img/humansize/icon_man.png" size />
 <img src="http://giter.mooo.com/img/humansize/icon_woman.png" />
+-->
+</html>
