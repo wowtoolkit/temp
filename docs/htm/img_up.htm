@@ -25,7 +25,7 @@ input { margin:5px; }
 <body>
 <h1><a href="https://giter.mooo.com/htm/img_up.htm">무료 이미지 업로드 호스팅</a></h1>
 <form 
-action="https://jp-tok.functions.cloud.ibm.com/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html" 
+action="https://jp-tok.functions.appdomain.cloud/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html" 
 method="post" enctype="multipart/form-data" id="fileUploadForm">
   <p><input type="file" name="file1" id="upfile_value">
 </form>
@@ -60,7 +60,7 @@ $("#upfile_value").change (function () {
 	$.ajax({
 		type: "POST",
 		enctype: 'multipart/form-data',
-		url: "https://jp-tok.functions.cloud.ibm.com/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html",
+		url: "https://jp-tok.functions.appdomain.cloud/api/v1/web/c86e7b44-b70a-41c5-8269-3b3282a4bd23/Real/img2free.html",
 		data: data,
 		processData: false,
 		contentType: false,
